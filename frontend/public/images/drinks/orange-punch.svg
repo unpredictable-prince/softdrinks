@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="glassO" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c" stop-opacity="0.9" />
+      <stop offset="30%" stop-color="#ea580c" stop-opacity="0.95" />
+      <stop offset="70%" stop-color="#fb923c" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#9a3412" stop-opacity="0.95" />
+    </linearGradient>
+    <radialGradient id="bubbleGlowO" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fed7aa" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#ea580c" stop-opacity="0" />
+    </radialGradient>
+    <filter id="softGlowO">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <circle cx="200" cy="380" r="160" fill="url(#bubbleGlowO)" opacity="0.4" filter="url(#softGlowO)" />
+
+  <rect x="175" y="45" width="50" height="25" rx="4" fill="#fb923c" stroke="#9a3412" stroke-width="2" />
+  <rect x="172" y="70" width="56" height="8" rx="2" fill="#ea580c" />
+
+  <path d="M180,78 C180,120 160,170 145,210 L255,210 C240,170 220,120 220,78 Z" fill="url(#glassO)" />
+  <rect x="135" y="210" width="130" height="390" rx="24" fill="url(#glassO)" />
+  <path d="M135,580 Q200,620 265,580 L265,600 Q200,630 135,600 Z" fill="#7c2d12" opacity="0.8" />
+
+  <path d="M150,225 Q145,380 150,560" stroke="#ffedd5" stroke-width="8" stroke-linecap="round" opacity="0.45" fill="none" />
+  <path d="M162,235 Q158,350 162,500" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.3" fill="none" />
+
+  <circle cx="165" cy="460" r="4.5" fill="#ffedd5" opacity="0.75" />
+  <circle cx="185" cy="510" r="3" fill="#ffedd5" opacity="0.6" />
+  <circle cx="215" cy="480" r="5" fill="#ffedd5" opacity="0.8" />
+  <circle cx="230" cy="420" r="3.5" fill="#ffedd5" opacity="0.7" />
+  <circle cx="190" cy="370" r="4" fill="#ffedd5" opacity="0.85" />
+
+  <g transform="translate(142, 330)">
+    <rect x="0" y="0" width="116" height="150" rx="10" fill="#18181b" stroke="#f97316" stroke-width="3" />
+    <rect x="6" y="6" width="104" height="138" rx="8" fill="#27272a" />
+    <text x="58" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="16" fill="#fb923c" text-anchor="middle" letter-spacing="1">FIZZORA</text>
+    <line x1="20" y1="42" x2="96" y2="42" stroke="#ea580c" stroke-width="1.5" />
+    <text x="58" y="66" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="14" fill="#ffffff" text-anchor="middle">ROYAL</text>
+    <text x="58" y="85" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="13" fill="#fdba74" text-anchor="middle">ORANGE</text>
+    <text x="58" y="105" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="9" fill="#fed7aa" text-anchor="middle">CITRUS THRILL</text>
+    <rect x="18" y="118" width="80" height="18" rx="4" fill="#ea580c" />
+    <text x="58" y="130" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="8.5" fill="#ffffff" text-anchor="middle">NAGPUR CITRUS</text>
+  </g>
+</svg>
