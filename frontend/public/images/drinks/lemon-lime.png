@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="glassL" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ca8a04" stop-opacity="0.85" />
+      <stop offset="30%" stop-color="#eab308" stop-opacity="0.9" />
+      <stop offset="70%" stop-color="#fef08a" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#a16207" stop-opacity="0.95" />
+    </linearGradient>
+    <radialGradient id="bubbleGlowL" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef9c3" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#eab308" stop-opacity="0" />
+    </radialGradient>
+    <filter id="softGlowL">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <circle cx="200" cy="380" r="160" fill="url(#bubbleGlowL)" opacity="0.4" filter="url(#softGlowL)" />
+
+  <rect x="175" y="45" width="50" height="25" rx="4" fill="#facc15" stroke="#854d0e" stroke-width="2" />
+  <rect x="172" y="70" width="56" height="8" rx="2" fill="#ca8a04" />
+
+  <path d="M180,78 C180,120 160,170 145,210 L255,210 C240,170 220,120 220,78 Z" fill="url(#glassL)" />
+  <rect x="135" y="210" width="130" height="390" rx="24" fill="url(#glassL)" />
+  <path d="M135,580 Q200,620 265,580 L265,600 Q200,630 135,600 Z" fill="#713f12" opacity="0.8" />
+
+  <path d="M150,225 Q145,380 150,560" stroke="#fefce8" stroke-width="8" stroke-linecap="round" opacity="0.5" fill="none" />
+  <path d="M162,235 Q158,350 162,500" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.35" fill="none" />
+
+  <circle cx="165" cy="460" r="4.5" fill="#ffffff" opacity="0.8" />
+  <circle cx="185" cy="510" r="3" fill="#ffffff" opacity="0.65" />
+  <circle cx="215" cy="480" r="5" fill="#ffffff" opacity="0.85" />
+  <circle cx="230" cy="420" r="3.5" fill="#ffffff" opacity="0.75" />
+  <circle cx="190" cy="370" r="4" fill="#ffffff" opacity="0.9" />
+
+  <g transform="translate(142, 330)">
+    <rect x="0" y="0" width="116" height="150" rx="10" fill="#1c1917" stroke="#eab308" stroke-width="3" />
+    <rect x="6" y="6" width="104" height="138" rx="8" fill="#292524" />
+    <text x="58" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="16" fill="#facc15" text-anchor="middle" letter-spacing="1">FIZZORA</text>
+    <line x1="20" y1="42" x2="96" y2="42" stroke="#ca8a04" stroke-width="1.5" />
+    <text x="58" y="66" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="14" fill="#ffffff" text-anchor="middle">LEMON</text>
+    <text x="58" y="85" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="13" fill="#fde047" text-anchor="middle">LIME BURST</text>
+    <text x="58" y="105" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="9" fill="#fef08a" text-anchor="middle">ELECTRIFYING FIZZ</text>
+    <rect x="18" y="118" width="80" height="18" rx="4" fill="#ca8a04" />
+    <text x="58" y="130" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="8.5" fill="#ffffff" text-anchor="middle">CRISP & CHILLED</text>
+  </g>
+</svg>

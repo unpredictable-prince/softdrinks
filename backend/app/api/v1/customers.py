@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.models.customer import Customer
 from app.models.user import User
-from app.schemas.customer import CustomerCreate, CustomerUpdate, CustomerResponse
+from app.schemas.customer import CustomerCreate, CustomerUpdate, CustomerResponse, StockistPublicResponse
 from app.api.deps import get_current_staff
 
 router = APIRouter(prefix="/customers", tags=["Customers & Retailers"])
@@ -63,6 +63,17 @@ def create_customer(
     db.commit()
     db.refresh(customer)
     return customer
+
+
+@router.get("/stockists/public", response_model=List[StockistPublicResponse])
+def get_public_stockists(
+    city: Optional[str] = Query(None),
+    db: Session = Depends(get_db),
+):
+    query = db.query(Customer).filter(Customer.customer_type.in_(["RETAILER", "DISTRIBUTOR"]))
+    if city and city.lower() != "all":
+        query = query.filter(Customer.city.ilike(f"%{city}%"))
+    return query.order_by(Customer.city.asc(), Customer.business_name.asc()).all()
 
 
 @router.get("/{customer_id}", response_model=CustomerResponse)

@@ -40,3 +40,15 @@ class CustomerResponse(CustomerBase):
     created_at: datetime
     updated_at: datetime
 
+
+class StockistPublicResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    business_name: Optional[str] = None
+    contact_name: str
+    phone: str
+    address: Optional[str] = None
+    city: str
+    state: str
+

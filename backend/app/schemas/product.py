@@ -39,6 +39,7 @@ class ProductVariantResponse(ProductVariantBase):
 class ProductBase(BaseModel):
     name: str
     slug: str
+    category: str = "CARBONATED"
     flavour: str
     description: Optional[str] = None
     image_url: Optional[str] = None
@@ -53,6 +54,7 @@ class ProductCreate(ProductBase):
 class ProductUpdate(BaseModel):
     name: Optional[str] = None
     slug: Optional[str] = None
+    category: Optional[str] = None
     flavour: Optional[str] = None
     description: Optional[str] = None
     image_url: Optional[str] = None
@@ -87,6 +89,7 @@ class ProductPublicResponse(BaseModel):
     id: int
     name: str
     slug: str
+    category: str = "CARBONATED"
     flavour: str
     description: Optional[str] = None
     image_url: Optional[str] = None

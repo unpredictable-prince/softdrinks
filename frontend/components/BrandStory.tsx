@@ -1,26 +1,26 @@
-import { ShieldCheck, Sparkles, HeartHandshake, Award } from 'lucide-react';
+import { ShieldCheck, Sparkles, HeartHandshake, Milk, Zap } from 'lucide-react';
 
 export default function BrandStory() {
   const pillars = [
     {
-      icon: Sparkles,
-      title: 'High Carbonation Index',
-      description: 'Pressurized at optimal effervescence volumes to ensure the fizz stays crisp and sharp from the first sip to the last drop.',
+      icon: Zap,
+      title: '4.2 Vol Carbonation Index',
+      description: 'Pressurized at calibrated effervescence volumes to ensure our Jeera Masala and Kachi Keri stay crisp and sharp from the first sip to the last drop.',
     },
     {
-      icon: Award,
-      title: 'Authentic Local Recipes',
-      description: 'Slow-roasted cumin seeds, rock salt crystals from Kutch, and zesty Saurashtra lemons blended for authentic regional taste.',
+      icon: Milk,
+      title: 'Authentic Slow-Churned Dahi',
+      description: 'Our Desi Masala Chaas and Rajwadi Lassi are crafted from whole milk curd, infused with rock salt, roasted cumin, and natural cardamom with zero milk powders.',
     },
     {
       icon: HeartHandshake,
-      title: 'Retailer First Partnership',
-      description: 'Fair crate deposit terms, consistent supply schedules, and healthy profit margins for local kirana and cold drink corners.',
+      title: 'Retailer-First Wholesale Terms',
+      description: 'Fair crate deposit systems, rapid stock replenishment, and healthy margins for regional provision stores and cold drink centres.',
     },
     {
       icon: ShieldCheck,
-      title: 'Strict Quality Hygiene',
-      description: 'Multi-stage RO water purification, automated bottle washing, and vacuum-sealed capping under controlled environments.',
+      title: 'Monitored Cold-Chain Hygiene',
+      description: 'Multi-stage RO water treatment, food-grade automated bottling, and insulated cold-chain logistics for perishable dairy freshness.',
     },
   ];
 
@@ -31,28 +31,29 @@ export default function BrandStory() {
           {/* Narrative Column */}
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-400">
-              <span>The Gujarati Heritage</span>
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Gujarat Beverage Heritage</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
               Rooted In The Legendary <br />
-              <span className="gradient-text">Cold Drink Culture</span>
+              <span className="gradient-text">Cold Drink & Dairy Culture</span>
             </h2>
 
             <p className="text-zinc-300 text-base sm:text-lg leading-relaxed">
-              In Gujarat, a cold drink is more than just a beverage—it is a timeless post-meal ritual, an evening street companion with friends, and the ultimate rescue from blistering 45°C dry summers.
+              In Gujarat, a cold drink is more than just a beverage—it is a sacred post-meal digestive, an evening street companion at the neighbourhood corner, and essential relief from blistering 45°C summers.
             </p>
 
             <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
-              We started with a simple belief: regional tastes deserve world-class beverage engineering. Instead of generic sweet colas, we craft robust digestive jeera sodas and raw mango coolers packed with genuine aroma, bold effervescence, and unmatched satisfaction.
+              We united two cherished traditions under one roof: the electrifying rush of spiced digestive sodas and the soothing comfort of Kathiyawadi buttermilk and sweet lassis. From Kutch rock salt to fresh whole-milk curd, every sip honours genuine regional taste.
             </p>
 
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <p className="text-sm italic text-zinc-300">
-                &ldquo;Every crate delivered to a local corner shop in Ahmedabad, Surat, or Rajkot carries our commitment to authentic taste and dependable supply.&rdquo;
+                &ldquo;Every crate dispatched to our retail stockists across Ahmedabad, Surat, Vadodara, and Rajkot carries our solemn commitment to purity, authentic spice ratios, and unbroken cold-chain supply.&rdquo;
               </p>
               <p className="mt-2 text-xs font-bold text-amber-400 tracking-wider uppercase">
-                — Fizzora Founding Philosophy
+                — Fizzora Master Bottlers
               </p>
             </div>
           </div>

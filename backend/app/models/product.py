@@ -12,6 +12,7 @@ class Product(Base):
     slug = Column(String(150), unique=True, index=True, nullable=False)
     description = Column(Text, nullable=True)
     flavour = Column(String(100), nullable=False)
+    category = Column(String(50), nullable=False, default="CARBONATED")  # CARBONATED, DAIRY
     image_url = Column(String(500), nullable=True)
     is_featured = Column(Boolean, nullable=False, default=False)
     status = Column(String(50), nullable=False, default="PUBLISHED")  # PUBLISHED, DRAFT, ARCHIVED

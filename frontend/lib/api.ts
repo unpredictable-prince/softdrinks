@@ -1,6 +1,7 @@
 import {
   Product,
   Customer,
+  Stockist,
   Enquiry,
   Sale,
   Payment,
@@ -49,12 +50,19 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
 export const api = {
   // Public
-  getPublicProducts: (featured?: boolean) => {
-    const q = featured !== undefined ? `?featured=${featured}` : '';
+  getPublicProducts: (featured?: boolean, category?: string) => {
+    const params = new URLSearchParams();
+    if (featured !== undefined) params.append('featured', String(featured));
+    if (category) params.append('category', category);
+    const q = params.toString() ? `?${params.toString()}` : '';
     return request<Product[]>(`/products${q}`);
   },
   getPublicProductBySlug: (slug: string) => {
     return request<Product>(`/products/detail/${slug}`);
+  },
+  getPublicStockists: (city?: string) => {
+    const q = city && city !== 'All' ? `?city=${encodeURIComponent(city)}` : '';
+    return request<Stockist[]>(`/customers/stockists/public${q}`);
   },
   submitPublicEnquiry: (data: {
     contact_name: string;

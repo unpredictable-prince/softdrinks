@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700" width="100%" height="100%">
+  <defs>
+    <!-- Rajwadi Sweet Lassi Creamy Curd Gradient -->
+    <linearGradient id="lassiMilk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fffbeb" stop-opacity="1" />
+      <stop offset="25%" stop-color="#fef3c7" stop-opacity="1" />
+      <stop offset="70%" stop-color="#fff7ed" stop-opacity="1" />
+      <stop offset="100%" stop-color="#fde68a" stop-opacity="0.95" />
+    </linearGradient>
+    <radialGradient id="royalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0" />
+    </radialGradient>
+    <filter id="softGlowLassi">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="200" cy="380" r="160" fill="url(#royalGlow)" opacity="0.35" filter="url(#softGlowLassi)" />
+
+  <!-- Bottle Cap (Royal Gold & Maroon) -->
+  <rect x="175" y="45" width="50" height="25" rx="4" fill="#d97706" stroke="#92400e" stroke-width="2" />
+  <rect x="172" y="70" width="56" height="8" rx="2" fill="#b45309" />
+
+  <!-- Bottle Neck -->
+  <path d="M180,78 C180,120 160,170 145,210 L255,210 C240,170 220,120 220,78 Z" fill="url(#lassiMilk)" stroke="#fde68a" stroke-width="1.5" />
+
+  <!-- Bottle Body -->
+  <rect x="135" y="210" width="130" height="390" rx="24" fill="url(#lassiMilk)" stroke="#fcd34d" stroke-width="1.5" />
+  <!-- Bottle Base Curve -->
+  <path d="M135,580 Q200,620 265,580 L265,600 Q200,630 135,600 Z" fill="#b45309" opacity="0.6" />
+
+  <!-- Malai top layer swell curve -->
+  <path d="M145,215 Q200,225 255,215" stroke="#fef08a" stroke-width="6" fill="none" opacity="0.8" />
+
+  <!-- Highlighting Specular Reflections -->
+  <path d="M150,225 Q145,380 150,560" stroke="#ffffff" stroke-width="9" stroke-linecap="round" opacity="0.75" fill="none" />
+  <path d="M163,235 Q158,350 163,500" stroke="#fffbeb" stroke-width="4" stroke-linecap="round" opacity="0.6" fill="none" />
+
+  <!-- Delicate Cardamom and Saffron Accents -->
+  <circle cx="170" cy="280" r="2" fill="#78350f" opacity="0.7" />
+  <circle cx="230" cy="290" r="2.5" fill="#d97706" opacity="0.8" />
+  <circle cx="195" cy="330" r="2" fill="#78350f" opacity="0.75" />
+  <circle cx="165" cy="490" r="2.5" fill="#d97706" opacity="0.7" />
+  <circle cx="225" cy="520" r="2" fill="#78350f" opacity="0.7" />
+
+  <!-- Brand Label Badge -->
+  <g transform="translate(142, 330)">
+    <rect x="0" y="0" width="116" height="150" rx="10" fill="#451a03" stroke="#f59e0b" stroke-width="3" />
+    <rect x="6" y="6" width="104" height="138" rx="8" fill="#291102" />
+    <text x="58" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="15" fill="#fcd34d" text-anchor="middle" letter-spacing="1">FIZZORA</text>
+    <line x1="20" y1="42" x2="96" y2="42" stroke="#d97706" stroke-width="1.5" />
+    <text x="58" y="64" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="13" fill="#ffffff" text-anchor="middle">RAJWADI</text>
+    <text x="58" y="83" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="13" fill="#fef08a" text-anchor="middle">SWEET LASSI</text>
+    <text x="58" y="103" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="8.5" fill="#fde68a" text-anchor="middle">THICK MALAI CURD</text>
+    <rect x="16" y="116" width="84" height="18" rx="4" fill="#d97706" />
+    <text x="58" y="128" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="8" fill="#ffffff" text-anchor="middle">ROYAL HERITAGE</text>
+  </g>
+</svg>

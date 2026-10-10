@@ -1,14 +1,17 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import FlavourShowcase from '@/components/FlavourShowcase';
+import FlavourQuiz from '@/components/FlavourQuiz';
+import FoodPairings from '@/components/FoodPairings';
+import StockistFinder from '@/components/StockistFinder';
 import BrandStory from '@/components/BrandStory';
 import RetailerPartnership from '@/components/RetailerPartnership';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Fizzora | Premium Carbonated Soft Drinks of Gujarat',
-  description: 'Authentic Gujarati carbonated beverages. Handcrafted Jeera Masala Fizz, Kachi Keri Raw Mango Spark, Sparkling Lemon Lime, and Spiced Heritage Cola. Wholesale supply for retail shops and distributors.',
+  title: 'Fizzora | Premium Carbonated Soft Drinks & Dairy of Gujarat',
+  description: 'Authentic Gujarati beverages: Handcrafted Jeera Masala Fizz, Kachi Keri Raw Mango Spark, Sparkling Lemon Lime, Spiced Heritage Cola, Desi Masala Chaas, and Rajwadi Sweet Lassi. Wholesale crate supply across Ahmedabad, Surat, Vadodara, and Rajkot.',
 };
 
 export default function HomePage() {
@@ -18,6 +21,9 @@ export default function HomePage() {
       <main className="flex-grow">
         <Hero />
         <FlavourShowcase />
+        <FlavourQuiz />
+        <FoodPairings />
+        <StockistFinder />
         <BrandStory />
         <RetailerPartnership />
         <ContactSection />

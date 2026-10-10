@@ -24,11 +24,14 @@ router = APIRouter(prefix="/products", tags=["Products"])
 @router.get("", response_model=List[ProductPublicResponse])
 def get_public_products(
     featured: Optional[bool] = Query(None),
+    category: Optional[str] = Query(None),
     db: Session = Depends(get_db),
 ):
     query = db.query(Product).filter(Product.status == "PUBLISHED")
     if featured is not None:
         query = query.filter(Product.is_featured == featured)
+    if category:
+        query = query.filter(Product.category == category.upper())
     products = query.order_by(Product.id.asc()).all()
     return products
 
@@ -72,6 +75,7 @@ def create_product(
     product = Product(
         name=product_in.name,
         slug=product_in.slug,
+        category=product_in.category.upper() if product_in.category else "CARBONATED",
         flavour=product_in.flavour,
         description=product_in.description,
         image_url=product_in.image_url,

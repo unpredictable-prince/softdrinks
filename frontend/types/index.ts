@@ -23,6 +23,7 @@ export interface Product {
   id: number;
   name: string;
   slug: string;
+  category?: 'CARBONATED' | 'DAIRY' | string;
   flavour: string;
   description?: string;
   image_url?: string;
@@ -31,6 +32,16 @@ export interface Product {
   variants: ProductVariant[];
   created_at?: string;
   updated_at?: string;
+}
+
+export interface Stockist {
+  id: number;
+  business_name?: string;
+  contact_name: string;
+  phone: string;
+  address?: string;
+  city: string;
+  state: string;
 }
 
 export interface Customer {
