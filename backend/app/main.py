@@ -25,16 +25,22 @@ app = FastAPI(
 )
 
 # CORS Middleware
-origins = settings.CORS_ORIGINS if isinstance(settings.CORS_ORIGINS, list) else ["*"]
+origins = settings.CORS_ORIGINS if isinstance(settings.CORS_ORIGINS, list) else [settings.CORS_ORIGINS]
+allow_creds = True
+if "*" in origins:
+    allow_creds = False
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_origin_regex=settings.CORS_ORIGIN_REGEX,
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
+@app.get("/health", tags=["Health"])
 @app.get("/api/v1/health", tags=["Health"])
 def health_check():
     return {

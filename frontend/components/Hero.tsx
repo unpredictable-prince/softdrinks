@@ -1,209 +1,350 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { Sparkles, ArrowRight, Store, ShieldCheck, Flame, Droplets, MapPin, Milk, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, Sparkles, MapPin, Store, Droplets, Flame, Shield, Milk, Zap, ChevronDown } from 'lucide-react';
 
 export default function Hero() {
   const [activeCategory, setActiveCategory] = useState<'CARBONATED' | 'DAIRY'>('CARBONATED');
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 0, y: 0 });
+  };
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-28 bg-[#090a0f]">
-      {/* Dynamic Ambient Glow Behind Showcase */}
-      <div
-        className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[550px] rounded-full blur-[120px] pointer-events-none transition-all duration-700 ${
-          activeCategory === 'CARBONATED' ? 'bg-amber-500/15' : 'bg-emerald-500/15'
-        }`}
-      />
-      <div className="absolute top-10 right-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none" />
+    <section
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative min-h-[92vh] flex flex-col justify-between overflow-hidden bg-[#06070a] text-zinc-100 border-b border-white/[0.08] select-none"
+    >
+      {/* Dynamic Background Atmosphere */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Subtle grid and radial grain */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
+        <div className="absolute inset-0 bg-radial-[circle_at_top,_transparent_30%,_#06070a_90%]" />
 
-      {/* Condensation & Chilled Droplets Overlay Simulation */}
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
+        {/* Ambient atmospheric aura shifts based on category */}
+        <motion.div
+          animate={{
+            x: mousePos.x * 40,
+            y: mousePos.y * 40,
+            backgroundColor: activeCategory === 'CARBONATED' ? 'rgba(229, 169, 60, 0.14)' : 'rgba(16, 185, 129, 0.14)',
+          }}
+          transition={{ type: 'spring', damping: 25, stiffness: 80 }}
+          className="absolute top-1/4 right-1/4 w-[650px] h-[650px] rounded-full blur-[140px] pointer-events-none"
+        />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Category Pill Switcher in Hero Top */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex p-1.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl">
-            <button
-              onClick={() => setActiveCategory('CARBONATED')}
-              className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                activeCategory === 'CARBONATED'
-                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-black shadow-lg shadow-amber-500/25 scale-102'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              <Zap className="h-4 w-4" />
-              <span>Carbonated Sodas (5)</span>
-            </button>
-            <button
-              onClick={() => setActiveCategory('DAIRY')}
-              className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                activeCategory === 'DAIRY'
-                  ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-black shadow-lg shadow-emerald-500/25 scale-102'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              <Milk className="h-4 w-4" />
-              <span>Gujarat Dairy Coolers (3)</span>
-            </button>
+        <motion.div
+          animate={{
+            x: -mousePos.x * 30,
+            y: -mousePos.y * 30,
+            backgroundColor: activeCategory === 'CARBONATED' ? 'rgba(245, 158, 11, 0.08)' : 'rgba(52, 211, 153, 0.08)',
+          }}
+          transition={{ type: 'spring', damping: 30, stiffness: 60 }}
+          className="absolute bottom-10 left-10 w-[500px] h-[500px] rounded-full blur-[130px] pointer-events-none"
+        />
+      </div>
+
+      {/* Top Editorial Metadata Banner */}
+      <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/[0.06] text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
+          <div className="flex items-center gap-3">
+            <span className="text-amber-400 font-bold">EDITION 01</span>
+            <span className="text-zinc-600">/</span>
+            <span>HIGH-PRESSURE BOTTLING</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <span className="hidden sm:inline text-zinc-400">45°C SUMMER SPECIFICATION</span>
+            <span className="flex items-center gap-1.5 text-zinc-300">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              NARODA CENTRAL REPOSITORY
+            </span>
           </div>
         </div>
+      </div>
 
+      {/* Main Hero Viewport Composition */}
+      <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-1 flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Hero Content */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-300">
-              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>Crafted in Gujarat</span>
-              <span className="h-1 w-1 rounded-full bg-amber-400" />
-              <span>Sodas & Slow-Churned Dairy</span>
+          
+          {/* Left Column: Monumental Editorial Typography & Narrative */}
+          <div className="lg:col-span-7 flex flex-col items-start space-y-6 lg:pr-6">
+            
+            {/* Category Switcher Pill */}
+            <div className="inline-flex p-1 rounded-xl bg-white/[0.04] border border-white/10 backdrop-blur-md shadow-2xl">
+              <button
+                onClick={() => setActiveCategory('CARBONATED')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 ${
+                  activeCategory === 'CARBONATED'
+                    ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/20'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <Zap className="h-3.5 w-3.5" />
+                <span>01. Carbonated Sodas (5)</span>
+              </button>
+              <button
+                onClick={() => setActiveCategory('DAIRY')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-bold tracking-wider uppercase transition-all duration-300 ${
+                  activeCategory === 'DAIRY'
+                    ? 'bg-emerald-400 text-black shadow-lg shadow-emerald-400/20'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <Milk className="h-3.5 w-3.5" />
+                <span>02. Kathiyawadi Dairy (3)</span>
+              </button>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
-              Electrifying Fizz.{' '}
-              <br />
-              <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-emerald-400 bg-clip-text text-transparent">
-                Authentic Gujarati Soul.
-              </span>
-            </h1>
+            {/* Monumental Headline */}
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-amber-400 uppercase">
+                <Sparkles className="h-3 w-3" />
+                <span>Radical Gujarat Effervescence</span>
+              </div>
+              <h1 className="font-display text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.02]">
+                LIQUID VOLTAGE.{' '}
+                <br />
+                <span className="bg-gradient-to-r from-amber-400 via-amber-200 to-emerald-300 bg-clip-text text-transparent">
+                  BORN IN THE 45°C HEAT.
+                </span>
+              </h1>
+            </div>
 
-            <p className="max-w-2xl text-base sm:text-lg text-zinc-300 font-normal leading-relaxed">
+            {/* Editorial Narrative */}
+            <AnimatePresence mode="wait">
               {activeCategory === 'CARBONATED' ? (
-                <>
-                  Born for scorching summer afternoons and hearty Kathiyawadi street banquets. Experience high-carbonation{' '}
-                  <strong className="text-amber-400 font-semibold">Roasted Jeera Masala</strong>, crisp{' '}
-                  <strong className="text-emerald-400 font-semibold">Kachi Keri Raw Mango</strong>, vibrant Lemon Lime, and spiced heritage colas bottled for pure punch.
-                </>
+                <motion.p
+                  key="carbonated-text"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="max-w-xl text-base sm:text-lg text-zinc-300 font-normal leading-relaxed"
+                >
+                  Calibrated to an uncompromising <strong className="text-white font-semibold">4.2 Vol CO₂</strong> to pierce through the fierce afternoon sun. Infused with hand-roasted cumin from Unjha, volcanic black rock salt from Kutch, and cold-pressed citrus oil. High carbonation engineered for Kathiyawadi dhabas and street feasts.
+                </motion.p>
               ) : (
-                <>
-                  Rooted in village tradition. Indulge in authentic slow-churned{' '}
-                  <strong className="text-emerald-400 font-semibold">Desi Masala Chaas</strong> with hing-jeera, velvety thick{' '}
-                  <strong className="text-amber-400 font-semibold">Rajwadi Malai Lassi</strong>, and royal saffron-infused{' '}
-                  <strong className="text-yellow-300 font-semibold">Kesar Pista Milk</strong>.
-                </>
+                <motion.p
+                  key="dairy-text"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="max-w-xl text-base sm:text-lg text-zinc-300 font-normal leading-relaxed"
+                >
+                  Rooted in Saurashtra pastoral tradition. Churned from whole-milk cultured dahi with aromatic hing, crushed roasted jeera, and rock salt. Zero reconstituted powders. Kept at unbroken <strong className="text-white font-semibold">3°C cold-chain</strong> from pasteurization to first sip.
+                </motion.p>
               )}
-            </p>
+            </AnimatePresence>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 pt-2 w-full sm:w-auto">
+            {/* Primary Action Array */}
+            <div className="flex flex-wrap gap-3.5 pt-2 w-full sm:w-auto">
               <a
                 href="#flavours"
-                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-3.5 text-sm font-bold text-black shadow-lg shadow-amber-500/25 hover:from-amber-400 hover:to-amber-500 transition-all hover:scale-[1.02]"
+                className="flex items-center justify-center gap-2.5 rounded-lg bg-amber-400 px-6 py-4 text-xs font-mono font-bold uppercase tracking-wider text-black shadow-xl shadow-amber-400/20 hover:bg-amber-300 hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
-                Explore All 8 Beverages
+                <span>Experience The 8 Pours</span>
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="#stockists"
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/10 hover:border-amber-400/40 transition-all"
+                className="flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/[0.03] px-5 py-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-200 hover:bg-white/[0.08] hover:border-amber-400/40 transition-all"
               >
                 <MapPin className="h-4 w-4 text-amber-400" />
-                Find Gujarat Stockists
+                <span>Locate Gujarat Stockist</span>
               </a>
               <a
                 href="#retailers"
-                className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 py-3.5 text-sm font-semibold text-amber-300 hover:bg-amber-500/20 transition-all"
+                className="flex items-center justify-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-xs font-mono font-semibold uppercase tracking-wider text-amber-300 hover:bg-amber-500/20 transition-all"
               >
                 <Store className="h-4 w-4" />
-                Wholesale Dealership
+                <span>Wholesale Crates</span>
               </a>
             </div>
 
-            {/* Trust highlights */}
-            <div className="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 w-full">
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-white">4.2 Vol</span>
-                <span className="text-xs text-zinc-400">Carbonation Level</span>
+            {/* Scientific Telemetry Ribbon */}
+            <div className="pt-6 border-t border-white/[0.08] grid grid-cols-3 gap-6 w-full max-w-lg">
+              <div className="flex flex-col space-y-1">
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-white">4.2 Vol</span>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Carbonation Pressure</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-amber-400">100% Pure</span>
-                <span className="text-xs text-zinc-400">Whole Milk & Veg</span>
+              <div className="flex flex-col space-y-1">
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-amber-400">3°C - 5°C</span>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Cold Chain Target</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-emerald-400">4 Cities</span>
-                <span className="text-xs text-zinc-400">Ahmedabad to Rajkot</span>
+              <div className="flex flex-col space-y-1">
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-emerald-400">100%</span>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Regional Spices</span>
               </div>
             </div>
+
           </div>
 
-          {/* Right Hero Visual Showcase */}
+          {/* Right Column: Hero Cinematic Product Artwork */}
           <div className="lg:col-span-5 relative flex justify-center items-center">
-            <div className="relative w-80 h-[480px] flex items-center justify-center p-4 group">
-              {/* Bottle SVG with category transition */}
-              <div className="relative w-full h-full flex items-center justify-center filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-105">
+            <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.04] to-black/80 shadow-2xl p-6 group">
+              
+              {/* Chilled Glass Vignette & Depth Glow */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 pointer-events-none" />
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-amber-500/20 to-emerald-500/20 blur-xl opacity-50 group-hover:opacity-80 transition-opacity" />
+
+              {/* Dynamic Bottle Presentation */}
+              <AnimatePresence mode="wait">
                 {activeCategory === 'CARBONATED' ? (
-                  <Image
-                    key="hero-jeera"
-                    src="/images/drinks/jeera-masala.svg"
-                    alt="Fizzora Jeera Masala Fizz"
-                    width={330}
-                    height={560}
-                    className="object-contain"
-                    priority
-                    unoptimized
-                  />
+                  <motion.div
+                    key="bottle-jeera"
+                    initial={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      filter: 'blur(0px)',
+                      rotate: mousePos.x * 6,
+                      y: mousePos.y * 12,
+                    }}
+                    exit={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 90 }}
+                    className="relative w-full h-full flex items-center justify-center z-10"
+                  >
+                    <Image
+                      src="/images/drinks/jeera-masala-photo.jpg"
+                      alt="Fizzora Jeera Masala Fizz Master Bottle"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 420px"
+                      priority
+                      className="object-cover rounded-2xl filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+                    />
+
+                    {/* Sensoric Floating Badges */}
+                    <motion.div
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute top-4 left-4 z-20 rounded-xl bg-black/80 backdrop-blur-md border border-amber-400/40 p-3 shadow-2xl hidden sm:flex items-center gap-3"
+                    >
+                      <div className="p-2 rounded-lg bg-amber-400/20 text-amber-400">
+                        <Flame className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-mono font-bold text-white uppercase tracking-wider">Roasted Cumin</p>
+                        <p className="text-[10px] font-mono text-zinc-400">Unjha Gujarat Terroir</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      animate={{ y: [0, 6, 0] }}
+                      transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute bottom-6 right-4 z-20 rounded-xl bg-black/80 backdrop-blur-md border border-emerald-400/40 p-3 shadow-2xl hidden sm:flex items-center gap-3"
+                    >
+                      <div className="p-2 rounded-lg bg-emerald-400/20 text-emerald-400">
+                        <Droplets className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-mono font-bold text-white uppercase tracking-wider">Kala Namak Fizz</p>
+                        <p className="text-[10px] font-mono text-zinc-400">4.2 Vol Effervescence</p>
+                      </div>
+                    </motion.div>
+                  </motion.div>
                 ) : (
-                  <Image
-                    key="hero-chaas"
-                    src="/images/drinks/masala-chaas.svg"
-                    alt="Fizzora Desi Masala Chaas"
-                    width={330}
-                    height={560}
-                    className="object-contain"
-                    priority
-                    unoptimized
-                  />
+                  <motion.div
+                    key="bottle-chaas"
+                    initial={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      filter: 'blur(0px)',
+                      rotate: mousePos.x * 6,
+                      y: mousePos.y * 12,
+                    }}
+                    exit={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 90 }}
+                    className="relative w-full h-full flex items-center justify-center z-10"
+                  >
+                    <Image
+                      src="/images/drinks/masala-chaas-photo.jpg"
+                      alt="Fizzora Desi Masala Chaas Master Bottle"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 420px"
+                      priority
+                      className="object-cover rounded-2xl filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+                    />
+
+                    {/* Sensoric Floating Badges */}
+                    <motion.div
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute top-4 left-4 z-20 rounded-xl bg-black/80 backdrop-blur-md border border-emerald-400/40 p-3 shadow-2xl hidden sm:flex items-center gap-3"
+                    >
+                      <div className="p-2 rounded-lg bg-emerald-400/20 text-emerald-400">
+                        <Milk className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-mono font-bold text-white uppercase tracking-wider">Slow-Churned Dahi</p>
+                        <p className="text-[10px] font-mono text-zinc-400">Kathiyawadi Recipe</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      animate={{ y: [0, 6, 0] }}
+                      transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute bottom-6 right-4 z-20 rounded-xl bg-black/80 backdrop-blur-md border border-amber-400/40 p-3 shadow-2xl hidden sm:flex items-center gap-3"
+                    >
+                      <div className="p-2 rounded-lg bg-amber-400/20 text-amber-400">
+                        <Shield className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-mono font-bold text-white uppercase tracking-wider">Digestive Hing</p>
+                        <p className="text-[10px] font-mono text-zinc-400">Zero Milk Powders</p>
+                      </div>
+                    </motion.div>
+                  </motion.div>
                 )}
+              </AnimatePresence>
+
+              {/* Watermark overlay */}
+              <div className="absolute bottom-3 left-4 z-20">
+                <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-white/40">
+                  PHOTOGRAPHED IN HIGH RES • GENUINE BOTTLING SPEC
+                </span>
               </div>
-
-              {/* Floating badges on hero bottle */}
-              {activeCategory === 'CARBONATED' ? (
-                <>
-                  <div className="absolute -left-4 top-1/4 rounded-2xl glass-panel p-3.5 shadow-xl border border-amber-500/25 backdrop-blur-md hidden sm:flex items-center gap-3 animate-pulse">
-                    <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400">
-                      <Flame className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-white">Roasted Cumin</p>
-                      <p className="text-[10px] text-zinc-400">Digestive Kala Namak</p>
-                    </div>
-                  </div>
-
-                  <div className="absolute -right-4 bottom-1/4 rounded-2xl glass-panel p-3.5 shadow-xl border border-emerald-500/25 backdrop-blur-md hidden sm:flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
-                      <Droplets className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-white">Crisp Chilled</p>
-                      <p className="text-[10px] text-zinc-400">Ultra Effervescent</p>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="absolute -left-4 top-1/4 rounded-2xl glass-panel p-3.5 shadow-xl border border-emerald-500/25 backdrop-blur-md hidden sm:flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
-                      <Milk className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-white">Slow Churned</p>
-                      <p className="text-[10px] text-zinc-400">Desi Dahi Base</p>
-                    </div>
-                  </div>
-
-                  <div className="absolute -right-4 bottom-1/4 rounded-2xl glass-panel p-3.5 shadow-xl border border-amber-500/25 backdrop-blur-md hidden sm:flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400">
-                      <ShieldCheck className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-white">Fresh Daily Cold-Chain</p>
-                      <p className="text-[10px] text-zinc-400">Zero Artificial Preservatives</p>
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
           </div>
+
+        </div>
+      </div>
+
+      {/* Bottom Dispatch Ribbon & Scroll Cue */}
+      <div className="relative z-10 w-full border-t border-white/[0.08] bg-[#030406]/90 py-3.5 px-4 sm:px-8">
+        <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-zinc-400">
+          <div className="flex items-center gap-4">
+            <span className="text-zinc-500 uppercase tracking-widest text-[10px]">Active Hubs:</span>
+            <span className="text-zinc-300 font-semibold">Ahmedabad Central</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-zinc-300 font-semibold">Surat Ring Road</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-zinc-300 font-semibold">Vadodara Sayajigunj</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-zinc-300 font-semibold">Rajkot Aji GIDC</span>
+          </div>
+          
+          <a
+            href="#flavours"
+            className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-amber-400 hover:text-amber-300 transition-colors"
+          >
+            <span>Explore The 8 Pours</span>
+            <ChevronDown className="h-3.5 w-3.5 animate-bounce" />
+          </a>
         </div>
       </div>
     </section>

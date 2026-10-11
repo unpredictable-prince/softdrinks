@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MapPin, Phone, Store, Search, ExternalLink, ShieldCheck, CheckCircle2, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, Store, Search, ShieldCheck, CheckCircle2, MessageCircle, ArrowUpRight } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Stockist } from '@/types';
 
@@ -106,15 +106,13 @@ export default function StockistFinder() {
         if (data && data.length > 0) {
           setStockists(data);
         } else {
-          // Filter default stockists locally
           if (cityParam) {
             setStockists(defaultStockists.filter((s) => s.city.toLowerCase() === cityParam.toLowerCase()));
           } else {
             setStockists(defaultStockists);
           }
         }
-      } catch (err) {
-        // Fallback filter locally
+      } catch {
         if (selectedCity !== 'All Gujarat') {
           setStockists(defaultStockists.filter((s) => s.city.toLowerCase() === selectedCity.toLowerCase()));
         } else {
@@ -139,34 +137,45 @@ export default function StockistFinder() {
   });
 
   return (
-    <section id="stockists" className="py-20 lg:py-28 bg-[#090a0f] relative overflow-hidden border-t border-white/5">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="stockists" className="relative py-24 sm:py-32 bg-[#050608] border-b border-white/[0.08] overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold text-amber-400 mb-3">
-            <MapPin className="h-3.5 w-3.5" />
-            <span>Retail Availability</span>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-10 border-b border-white/[0.08]">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.25em] text-amber-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>COLD CHAIN REPOSITORIES</span>
+              <span className="text-zinc-600">/</span>
+              <span>VERIFIED RETAIL STOCKISTS</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
+              GUJARAT COLD <br />
+              <span className="bg-gradient-to-r from-amber-400 via-yellow-200 to-emerald-400 bg-clip-text text-transparent">
+                SUPPLY NETWORK.
+              </span>
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-            Find A <span className="gradient-text">Gujarat Stockist Near You</span>
-          </h2>
-          <p className="mt-3 text-zinc-400 text-base sm:text-lg">
-            Pick up chilled bottles of Jeera Masala Fizz, Kachi Keri, Desi Masala Chaas, or Rajwadi Lassi at verified provision shops and cold corners.
+
+          <p className="max-w-md text-zinc-400 text-sm sm:text-base leading-relaxed">
+            Locate authorized regional provision stores, highway dhabas, and cold drink centres stocked with fresh daily batches chilled at 3°C - 5°C.
           </p>
         </div>
 
-        {/* Filter Bar: City Tabs & Live Search Input */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
-          {/* City Selector Pills */}
-          <div className="flex overflow-x-auto w-full md:w-auto pb-2 md:pb-0 gap-2 no-scrollbar">
+        {/* Filter Controls Ribbon */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-2 rounded-2xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-md">
+          {/* City Selector */}
+          <div className="flex overflow-x-auto w-full md:w-auto gap-2 no-scrollbar">
             {CITIES.map((c) => (
               <button
                 key={c}
                 onClick={() => setSelectedCity(c)}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
                   selectedCity === c
-                    ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/25 scale-102'
-                    : 'bg-white/5 text-zinc-400 hover:text-white border border-white/10'
+                    ? 'bg-amber-400 text-black shadow-md'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 {c}
@@ -175,14 +184,14 @@ export default function StockistFinder() {
           </div>
 
           {/* Search Box */}
-          <div className="relative w-full md:w-72">
+          <div className="relative w-full md:w-80">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
             <input
               type="text"
-              placeholder="Search area, shop or street..."
+              placeholder="Search by neighborhood, street, or store..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl bg-white/5 border border-white/10 pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
+              className="w-full rounded-xl bg-white/[0.04] border border-white/10 pl-10 pr-4 py-2.5 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
             />
           </div>
         </div>
@@ -192,51 +201,53 @@ export default function StockistFinder() {
           {filtered.map((stockist) => (
             <div
               key={stockist.id}
-              className="rounded-2xl glass-panel p-6 border border-white/10 hover:border-amber-400/40 transition-all flex flex-col justify-between group hover:shadow-xl"
+              className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-white/20 transition-all flex flex-col justify-between space-y-6 group"
             >
-              <div>
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
-                    <Store className="h-5 w-5" />
-                  </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-zinc-300">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] text-amber-400 font-bold">
                     {stockist.city}
                   </span>
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span>3°C Visi-Cooler</span>
+                  </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
+                <h3 className="font-display text-lg font-bold text-white group-hover:text-amber-300 transition-colors">
                   {stockist.business_name || stockist.contact_name}
                 </h3>
-                <p className="text-xs text-zinc-400 mt-1">
-                  Contact: <span className="text-zinc-300 font-medium">{stockist.contact_name}</span>
+
+                <p className="text-xs font-mono text-zinc-400">
+                  Manager: <span className="text-zinc-200">{stockist.contact_name}</span>
                 </p>
 
-                <p className="text-xs text-zinc-300 mt-3 leading-relaxed">
+                <p className="text-xs text-zinc-300 leading-relaxed">
                   {stockist.address || `${stockist.city}, Gujarat`}
                 </p>
 
-                <div className="mt-4 flex items-center gap-2 text-[11px] text-emerald-400 font-medium">
-                  <ShieldCheck className="h-3.5 w-3.5" />
-                  <span>Verified Cold Storage & Daily Stock</span>
+                <div className="pt-2 flex items-center gap-1.5 text-[11px] font-mono text-zinc-400">
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 flex-shrink-0" />
+                  <span>Authorized Cold Depot & Glass Return Point</span>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-3">
+              <div className="pt-4 border-t border-white/[0.06] flex items-center gap-3">
                 <a
                   href={`tel:${stockist.phone}`}
-                  className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white transition-all"
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-mono font-bold text-white transition-all"
                 >
                   <Phone className="h-3.5 w-3.5 text-amber-400" />
                   <span>Call {stockist.phone}</span>
                 </a>
 
                 <a
-                  href={`https://wa.me/91${stockist.phone}?text=Hello%20${encodeURIComponent(stockist.contact_name)},%20I%20found%20you%20on%20Fizzora.in%20and%20would%20like%20to%20know%20if%20you%20have%20chilled%20bottles%20in%20stock.`}
+                  href={`https://wa.me/91${stockist.phone}?text=Hello%20${encodeURIComponent(stockist.contact_name)},%20I%20found%20you%20on%20Fizzora%20and%20would%20like%20to%20check%20chilled%20crate%20stock.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 transition-all"
-                  title="WhatsApp Store"
+                  className="p-2.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 transition-all"
+                  title="WhatsApp Store Direct"
                 >
                   <MessageCircle className="h-4 w-4" />
                 </a>
@@ -246,37 +257,38 @@ export default function StockistFinder() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-12 rounded-3xl bg-white/5 border border-white/10">
-            <Store className="h-10 w-10 text-zinc-500 mx-auto mb-3" />
-            <h4 className="text-lg font-bold text-white">No retail stockists matched your search</h4>
-            <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto">
-              Try searching for a different area or select another Gujarat city from the filter tabs above.
+          <div className="text-center py-14 rounded-2xl bg-white/[0.02] border border-white/[0.08] space-y-2">
+            <Store className="h-8 w-8 text-zinc-500 mx-auto" />
+            <h4 className="font-display text-base font-bold text-white">No stockists matched your search</h4>
+            <p className="text-xs font-mono text-zinc-400 max-w-sm mx-auto">
+              Please select &lsquo;All Gujarat&rsquo; or another city tab above to browse authorized outlets.
             </p>
           </div>
         )}
 
-        {/* Retailer Partnership Callout Banner */}
-        <div className="mt-14 rounded-3xl bg-gradient-to-r from-amber-500/15 via-emerald-500/10 to-amber-500/15 border border-amber-500/30 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Retailer Partnership Callout */}
+        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-white/[0.02] to-emerald-500/10 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-amber-400">
               <CheckCircle2 className="h-4 w-4" />
-              <span>Are You a Gujarat Store Owner?</span>
+              <span>Are You a Gujarat Provision Store or Dhaba Owner?</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Stock Fizzora In Your Shop Or Cold Corner
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
+              Install a Fizzora Cold Dispenser in Your Store
             </h3>
-            <p className="text-xs sm:text-sm text-zinc-300 max-w-xl">
-              Receive company visi-coolers, zero-spill crates, verified margin discounts, and same-day delivery across Ahmedabad, Surat, Vadodara, and Rajkot.
+            <p className="text-zinc-300 text-xs sm:text-sm max-w-xl">
+              Qualify for zero-deposit branded visi-coolers, 26% retailer profit margins, and guaranteed morning delivery across Ahmedabad, Surat, Vadodara, and Rajkot.
             </p>
           </div>
 
           <a
             href="#retailers"
-            className="flex-shrink-0 px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm shadow-lg shadow-amber-500/25 transition-all"
+            className="flex-shrink-0 px-6 py-4 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-xl"
           >
-            Apply for Retail Dealership
+            Apply for Dealership & Crates
           </a>
         </div>
+
       </div>
     </section>
   );

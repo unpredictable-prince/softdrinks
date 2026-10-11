@@ -9,8 +9,12 @@ import time
 import psycopg2
 
 db_url = os.environ.get("DATABASE_URL", "postgresql://postgres:postgrespassword@db:5432/fizzora_db")
-if "+asyncpg" in db_url:
-    db_url = db_url.replace("+asyncpg", "")
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+if "://" in db_url:
+    prefix, rest = db_url.split("://", 1)
+    if "+" in prefix:
+        db_url = f"postgresql://{rest}"
 
 max_retries = 30
 for i in range(max_retries):
@@ -34,4 +38,8 @@ echo "==> Seeding initial data..."
 python -m app.core.seed
 
 echo "==> Starting application server..."
-exec "$@"
+if [ $# -eq 0 ]; then
+    exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-8000}"
+else
+    exec "$@"
+fi

@@ -11,7 +11,20 @@ import {
   User,
 } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+function getApiBaseUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!envUrl) return 'http://localhost:8000/api/v1';
+  let url = envUrl.trim();
+  while (url.endsWith('/')) {
+    url = url.slice(0, -1);
+  }
+  if (!url.endsWith('/api/v1') && !url.includes('/api/')) {
+    url = `${url}/api/v1`;
+  }
+  return url;
+}
+
+const API_BASE_URL = getApiBaseUrl();
 
 function getAuthToken(): string | null {
   if (typeof window === 'undefined') return null;

@@ -19,12 +19,20 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Add category column with default 'CARBONATED'
-    op.add_column(
-        'products',
-        sa.Column('category', sa.String(length=50), nullable=False, server_default='CARBONATED')
-    )
+    # Safely add category column if it doesn't already exist
+    bind = op.get_bind()
+    insp = sa.inspect(bind)
+    columns = [c['name'] for c in insp.get_columns('products')]
+    if 'category' not in columns:
+        op.add_column(
+            'products',
+            sa.Column('category', sa.String(length=50), nullable=False, server_default='CARBONATED')
+        )
 
 
 def downgrade() -> None:
-    op.drop_column('products', 'category')
+    bind = op.get_bind()
+    insp = sa.inspect(bind)
+    columns = [c['name'] for c in insp.get_columns('products')]
+    if 'category' in columns:
+        op.drop_column('products', 'category')

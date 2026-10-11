@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
 
     CORS_ORIGINS: Union[List[str], str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    CORS_ORIGIN_REGEX: Union[str, None] = r"^https:\/\/.*\.vercel\.app$"
 
     ADMIN_DEFAULT_NAME: str = "Owner Admin"
     ADMIN_DEFAULT_EMAIL: str = "admin@fizzora.in"
@@ -38,13 +39,32 @@ class Settings(BaseSettings):
     BUSINESS_EMAIL: str = "contact@fizzora.in"
     BUSINESS_INSTAGRAM: str = "https://instagram.com/fizzora_drinks"
 
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def assemble_database_url(cls, v: str) -> str:
+        if isinstance(v, str):
+            # Normalize postgres:// to postgresql:// for SQLAlchemy 2.0 compatibility
+            if v.startswith("postgres://"):
+                return v.replace("postgres://", "postgresql://", 1)
+        return v
+
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
         if isinstance(v, str) and not v.startswith("["):
-            return [i.strip() for i in v.split(",")]
+            return [i.strip() for i in v.split(",") if i.strip()]
         elif isinstance(v, str) and v.startswith("["):
             return json.loads(v)
+        return v
+
+    @field_validator("CORS_ORIGIN_REGEX", mode="before")
+    @classmethod
+    def assemble_cors_origin_regex(cls, v: Union[str, None]) -> Union[str, None]:
+        if isinstance(v, str):
+            cleaned = v.strip()
+            if not cleaned or cleaned.lower() in ("none", "null", "false", "empty", '""', "''"):
+                return None
+            return cleaned
         return v
 
 
